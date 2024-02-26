@@ -1,0 +1,63 @@
+name: Security Scan
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  SCA-Snyk:
+    runs-on: ubuntu-latest
+    needs: [trufflehog]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build a Docker image
+        run: docker build -t assignment1:latest .
+      - name: Run Snyk to check Docker image for vulnerabilities
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{secrets.SNYK_KEY}}
+        with:
+          image: assignment1:latest
+          args: --file=Dockerfile --serif-file-output=snyk.sarif
+      - name: save report as pipeline artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: snyk-sca.sarif
+          path: snyk.sarif
+
+  SAST-Semgrep:
+    runs-on: ubuntu-latest
+    needs: [trufflehog]
+    container:
+      image: returntocorp/semgrep
+
+    steps:
+      - name: clone application source code
+        uses: actions/checkout@v3
+
+      - name: full semgrep scan
+        run: |
+          semgrep \
+          --sarif --output semgrep-sast.sarif \
+          --metrics=off \
+          --config="p/default"
+
+      - name: save report as pipeline artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-sast.sarif
+          path: semgrep-sast.sarif
+
+  trufflehog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Secret Scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
