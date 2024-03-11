@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@master
 
       - name: Test files are visibile
-        # Execute some shell commands on your server (this is the self-hosted instance)
         run: |
           whoami
           ls
+          docker-compose up -d 
 
   SCA-Snyk:
     runs-on: ubuntu-latest
