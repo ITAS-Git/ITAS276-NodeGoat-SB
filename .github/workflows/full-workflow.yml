@@ -18,6 +18,7 @@ jobs:
           whoami
           ls
           docker-compose up -d 
+          docker ps
 
   SCA-Snyk:
     runs-on: ubuntu-latest
