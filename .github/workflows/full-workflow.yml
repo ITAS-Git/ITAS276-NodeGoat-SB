@@ -13,7 +13,7 @@ jobs:
       - name: Copy source code files
         uses: actions/checkout@master
 
-      - name: Test files are visibile
+      - name: Show files and start docker
         run: |
           whoami
           ls
