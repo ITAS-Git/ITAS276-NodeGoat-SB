@@ -41,7 +41,7 @@ function ContributionsHandler(db) {
 			isNaN(preTax),
 			isNaN(afterTax),
 			isNaN(roth),
-			preTax < 0,
+			preTax < 0, 
 			afterTax < 0,
 			roth < 0,
 		];
