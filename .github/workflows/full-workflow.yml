@@ -1,4 +1,5 @@
 name: Full Workflow
+# This workflow is triggered on push and pull request events to the master branch
 on:
   push:
     branches: ["master"]
@@ -6,6 +7,7 @@ on:
     branches: ["master"]
 
 jobs:
+  # This job is triggered when the workflow starts and sends a notification to Discord
   Discord-Begin:
     runs-on: ubuntu-latest
     steps:
@@ -36,6 +38,8 @@ jobs:
   #         docker-compose up -d
   #         docker ps
 
+  # This job is triggered after the trufflehog job, runs Snyk to check for vulnerabilities in the Docker image, and sends a notification to Discord
+  # The notification includes a link to the Snyk report
   SCA-Snyk:
     runs-on: ubuntu-latest
     needs: [trufflehog]
@@ -70,6 +74,8 @@ jobs:
           embed-author-name: "${{ github.triggering_actor }}"
           thread-id: "1226943908676632756"
 
+  # This job is triggered after the trufflehog job, runs Semgrep to check for vulnerabilities in the source code, and sends a notification to Discord
+  # The notification includes a link to the Semgrep report
   SAST-Semgrep:
     runs-on: ubuntu-latest
     needs: [trufflehog]
@@ -106,6 +112,7 @@ jobs:
           embed-author-name: "${{ github.triggering_actor }}"
           thread-id: "1226943908676632756"
 
+  # This job is triggered first and runs Trufflehog to check for secrets in the source code
   trufflehog:
     runs-on: ubuntu-latest
     needs: [Discord-Begin]
@@ -119,6 +126,7 @@ jobs:
         with:
           extra_args: --only-verified
 
+  # This job is triggered after the SCA-Snyk and SAST-Semgrep jobs, builds and pushes the Docker image to Docker Hub, and sends a notification to Discord
   build-and-push:
     runs-on: ubuntu-latest
     needs: [SAST-Semgrep, SCA-Snyk]
@@ -140,6 +148,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/itas276owasp:latest
 
+  # This job is triggered after the build-and-push job, sends a notification to Discord indicating that the pipeline has completed
   discord-end:
     runs-on: ubuntu-latest
     needs: [build-and-push]
