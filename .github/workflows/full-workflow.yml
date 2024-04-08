@@ -58,10 +58,6 @@ jobs:
           name: snyk-sca.sarif
           path: snyk.sarif
 
-  Snyk-Report:
-    runs-on: ubuntu-latest
-    needs: [SCA-Snyk]
-    steps:
       - name: Discord Notification start
         uses: tsickert/discord-webhook@v5.3.0
         with:
@@ -98,10 +94,6 @@ jobs:
           name: semgrep-sast.sarif
           path: semgrep-sast.sarif
 
-  Semgrep-Report:
-    runs-on: ubuntu-latest
-    needs: [SAST-Semgrep]
-    steps:
       - name: Discord Notification start
         uses: tsickert/discord-webhook@v5.3.0
         with:
@@ -110,7 +102,7 @@ jobs:
           avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Semgrep SAST scan completed. Check the report for vulnerabilities."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          embed-description: "Semgrep SARIF report is available. [Download SARIF Report](${{ steps.upload_semgrep_report.outputs.artifact-url}})"
+          embed-description: "Semgrep SARIF report is available. [Download SARIF Report](${{ steps.upload_semgrep_report.outputs.artifact-url }})"
           embed-author-name: "${{ github.triggering_actor }}"
           thread-id: "1226943908676632756"
 
@@ -129,7 +121,7 @@ jobs:
 
   build-and-push:
     runs-on: ubuntu-latest
-    needs: [Semgrep-Report, Snyk-Report]
+    needs: [SAST-Semgrep, SCA-Snyk]
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
