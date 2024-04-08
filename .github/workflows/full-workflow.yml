@@ -14,7 +14,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           username: ${{github.repository}}
-          avatar-url: https://static.vecteezy.com/system/resources/previews/023/416/435/original/funny-avatar-of-a-character-with-one-eye-png.png
+          avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Security Pipeline jobs are starting..."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           embed-description: "[Action details ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
@@ -63,11 +63,12 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           username: ${{github.repository}}
-          avatar-url: https://static.vecteezy.com/system/resources/previews/023/416/435/original/funny-avatar-of-a-character-with-one-eye-png.png
+          avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Snyk SCA scan completed. Check the report for vulnerabilities."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           embed-description: "[Action details ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           embed-author-name: "${{ github.triggering_actor }}"
+          filename: "snyk-sca.sarif"
 
   SAST-Semgrep:
     runs-on: ubuntu-latest
@@ -101,11 +102,12 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           username: ${{github.repository}}
-          avatar-url: https://static.vecteezy.com/system/resources/previews/023/416/435/original/funny-avatar-of-a-character-with-one-eye-png.png
+          avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Semgrep SAST scan completed. Check the report for vulnerabilities."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           embed-description: "[Action details ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           embed-author-name: "${{ github.triggering_actor }}"
+          filename: "semgrep-sast.sarif"
 
   trufflehog:
     runs-on: ubuntu-latest
@@ -149,7 +151,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           username: ${{github.repository}}
-          avatar-url: https://static.vecteezy.com/system/resources/previews/023/416/435/original/funny-avatar-of-a-character-with-one-eye-png.png
+          avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Security Pipeline jobs are completed..."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           embed-description: "[Action details ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
