@@ -69,9 +69,8 @@ jobs:
           avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Snyk SCA scan completed. Check the report for vulnerabilities."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          embed-description: "Snyk SARIF report is available. [Download SARIF Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)"
+          embed-description: "Snyk SARIF report is available. [Download SARIF Report](${{ steps.upload_snyk_report.outputs.artifact-url }})"
           embed-author-name: "${{ github.triggering_actor }}"
-          # filename: "snyk-sca.sarif"
           thread-id: "1226943908676632756"
 
   SAST-Semgrep:
@@ -92,7 +91,7 @@ jobs:
           --config="p/default"
 
       - name: save report as pipeline artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: semgrep-sast.sarif
           path: semgrep-sast.sarif
@@ -109,9 +108,8 @@ jobs:
           avatar-url: https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png
           embed-title: "Semgrep SAST scan completed. Check the report for vulnerabilities."
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          embed-description: "Semgrep SARIF report is available. [Download SARIF Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)"
+          embed-description: "Semgrep SARIF report is available. [Download SARIF Report](${{ steps.upload_semgrep_report.outputs.artifact-url }})"
           embed-author-name: "${{ github.triggering_actor }}"
-          # filename: "semgrep-sast.sarif"
           thread-id: "1226943908676632756"
 
   trufflehog:
