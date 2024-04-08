@@ -6,6 +6,20 @@ on:
     branches: ["master"]
 
 jobs:
+  Discord-Begin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Notification start
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: ${{github.repository}}
+          avatar-url: https://static.vecteezy.com/system/resources/previews/023/416/435/original/funny-avatar-of-a-character-with-one-eye-png.png
+          embed-title: "Security Pipeline jobs are starting..."
+          embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          embed-description: "[Action details ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          embed-author-name: "${{ github.triggering_actor }}"
+
   deploy:
     name: "Deploy to ITAS WMD server"
     runs-on: self-hosted
